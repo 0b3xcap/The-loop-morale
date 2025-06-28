@@ -20,11 +20,12 @@
       background-color: black;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-end;
       flex-direction: column;
       text-align: center;
       opacity: 0;
       transition: opacity 1s ease-in-out;
+      padding-bottom: 10vh;
     }
     .slide.active {
       opacity: 1;
@@ -56,6 +57,7 @@
       padding: 2rem;
       opacity: 1;
       min-height: 5rem;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
     }
     .typed {
       border-right: .08em solid white;
@@ -110,7 +112,7 @@
 
   let current = 0;
 
-  function typeText(element, text, speed = 35) {
+  function typeText(element, text, speed = 150) {
     return new Promise(resolve => {
       let i = 0;
       const interval = setInterval(() => {
@@ -137,20 +139,21 @@
     img?.classList.add('show');
 
     await new Promise(r => setTimeout(r, 1000)); // Image fade in
+    await new Promise(r => setTimeout(r, 3000)); // Image hold
+
+    img?.classList.remove('show'); // Fade out image
+    await new Promise(r => setTimeout(r, 1000)); // Image fade out
 
     if (textEl && sequence[i].text) {
       textEl.textContent = "";
       textEl.classList.add("typed");
       await typeText(textEl, sequence[i].text);
-      await new Promise(r => setTimeout(r, 1500)); // Hold after typing
+      await new Promise(r => setTimeout(r, 2000)); // Hold after typing
     } else {
       await new Promise(r => setTimeout(r, 3500));
     }
 
-    img?.classList.remove('show'); // Fade out image
-    await new Promise(r => setTimeout(r, 2000)); // Hold just text (black bg)
     currentSlide.classList.remove('active');
-
     current = (current + 1) % slides.length;
     setTimeout(() => runSlide(current), 1000); // Slide buffer
   }
