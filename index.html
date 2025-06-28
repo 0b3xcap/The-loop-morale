@@ -9,7 +9,7 @@
     body {
       background: black;
       color: white;
-      font-family: "Arial Black", "Segoe UI Semibold", "Helvetica Neue", sans-serif;
+      font-family: "Arial Black", "Segoe UI Semibold", sans-serif;
       height: 100vh;
       overflow: hidden;
     }
@@ -60,7 +60,6 @@
       text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
     }
     .typed {
-      border-right: .08em solid white;
       white-space: pre-wrap;
       overflow: hidden;
     }
@@ -112,7 +111,7 @@
 
   let current = 0;
 
-  function typeText(element, text, speed = 150) {
+  function typeText(element, text, speed = 100) {
     return new Promise(resolve => {
       let i = 0;
       const interval = setInterval(() => {
@@ -120,7 +119,6 @@
         i++;
         if (i >= text.length) {
           clearInterval(interval);
-          element.classList.remove('typed');
           resolve();
         }
       }, speed);
@@ -135,7 +133,7 @@
     const img = currentSlide.querySelector('.image');
     const textEl = currentSlide.querySelector('.text span');
 
-    await new Promise(r => setTimeout(r, 500)); // Initial delay
+    await new Promise(r => setTimeout(r, 1000)); // Initial delay
     img?.classList.add('show');
 
     await new Promise(r => setTimeout(r, 1000)); // Image fade in
@@ -146,7 +144,6 @@
 
     if (textEl && sequence[i].text) {
       textEl.textContent = "";
-      textEl.classList.add("typed");
       await typeText(textEl, sequence[i].text);
       await new Promise(r => setTimeout(r, 2000)); // Hold after typing
     } else {
@@ -154,8 +151,11 @@
     }
 
     currentSlide.classList.remove('active');
-    current = (current + 1) % slides.length;
-    setTimeout(() => runSlide(current), 1000); // Slide buffer
+    current++;
+
+    if (current < slides.length) {
+      setTimeout(() => runSlide(current), 500); // Transition to next
+    }
   }
 
   window.onload = () => {
