@@ -1,1 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Morale Loop</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: black;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    .active {
+      opacity: 1;
+      z-index: 2;
+    }
+    .caption {
+      position: absolute;
+      bottom: 10%;
+      width: 100%;
+      text-align: center;
+      font-size: 1.5em;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+      padding: 0 20px;
+      line-height: 1.4em;
+    }
+    .show-caption {
+      opacity: 1;
+    }
+    img.fullscreen {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
 
+  <div id="slider"></div>
+
+  <script>
+    const sequence = [
+      { img: 'image1MOR.PNG', text: 'The smartest ones keep checking…' },
+      { img: 'image2MOR.PNG' },
+      { img: 'ProudmomentOEE.png', text: "That's what flow looks like" },
+      { img: 'image7MOR.PNG' },
+      { img: 'CITA.jpg' },
+      { img: 'image3MOR.PNG', text: 'Small wins, quiet pride, real leadership.' },
+      { img: 'image4MOR.PNG' },
+      { img: 'image5MOR.PNG', text: "There’s more to this place than parts and numbers. We’re building more than product." },
+      { img: 'image6MOR.PNG', text: 'The smartest ones keep checking…' }
+    ];
+
+    const slider = document.getElementById('slider');
+    let current = 0;
+
+    sequence.forEach((item, index) => {
+      const slide = document.createElement('div');
+      slide.className = 'slide';
+      slide.style.backgroundImage = `url('${item.img}')`;
+
+      if (item.text) {
+        const caption = document.createElement('div');
+        caption.className = 'caption';
+        caption.textContent = item.text;
+        slide.appendChild(caption);
+      }
+
+      slider.appendChild(slide);
+    });
+
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(i) {
+      slides.forEach(s => s.classList.remove('active'));
+      const currentSlide = slides[i];
+      currentSlide.classList.add('active');
+
+      const caption = currentSlide.querySelector('.caption');
+      if (caption) {
+        caption.classList.remove('show-caption');
+        setTimeout(() => caption.classList.add('show-caption'), 1000);
+      }
+    }
+
+    function startSequence() {
+      showSlide(current);
+      setInterval(() => {
+        current = (current + 1) % slides.length;
+        showSlide(current);
+      }, 6500);
+    }
+
+    startSequence();
+  </script>
+
+</body>
+</html>
