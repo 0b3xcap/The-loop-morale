@@ -73,9 +73,9 @@
   const sequence = [
     { img: 'image1MOR.PNG', text: "The smartest ones keep checking even when they’re sure." },
     { img: 'image2MOR.PNG' },
-    { img: 'ProudmomentOEE.png', text: "That’s what flow looks like." },
+    { img: 'ProudmomentOEE.png', text: "That’s what flow looks like.", hold: 12000 },
     { img: 'image7MOR.PNG' },
-    { img: 'CITA.jpg' },
+    { img: 'CITA.jpg', hold: 12000 },
     { img: 'image3MOR.PNG', text: "Small wins, quiet pride, real leadership." },
     { img: 'image4MOR.PNG' },
     { img: 'image5MOR.PNG', text: "There’s more to this place than parts and numbers. We’re building more than product." },
@@ -137,7 +137,8 @@
     img?.classList.add('show');
 
     await new Promise(r => setTimeout(r, 1000)); // Image fade in
-    await new Promise(r => setTimeout(r, 3000)); // Image hold
+    const holdTime = sequence[i].hold || 3000;
+    await new Promise(r => setTimeout(r, holdTime)); // Image hold
 
     img?.classList.remove('show'); // Fade out image
     await new Promise(r => setTimeout(r, 1000)); // Image fade out
