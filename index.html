@@ -112,7 +112,7 @@
     }
 
     .fade-out {
-      animation: fadeOut 3.5s ease forwards;
+      animation: fadeOut 5s ease forwards;
     }
   </style>
 </head>
@@ -173,7 +173,7 @@
 
   const slides = document.querySelectorAll('.slide');
 
-  function typeText(element, text, speed = 100) {
+  function typeText(element, text, speed = 150) {
     return new Promise(resolve => {
       let i = 0;
       const interval = setInterval(() => {
