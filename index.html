@@ -160,14 +160,14 @@
     image.src = item.img;
     image.className = 'image';
     if (item.img === 'CITA.jpg') image.classList.add('contain-fit');
-
-    const text = document.createElement('div');
-    text.className = 'text';
     slide.appendChild(image);
+
     if (item.text) {
-      text.innerHTML = `<span class="typed"></span>`;
+      const text = document.createElement('div');
+      text.className = 'text';
       slide.appendChild(text);
     }
+
     container.appendChild(slide);
   });
 
@@ -195,7 +195,7 @@
     currentSlide.classList.add('active');
 
     const img = currentSlide.querySelector('.image');
-    const textEl = currentSlide.querySelector('.text span');
+    const textContainer = currentSlide.querySelector('.text');
 
     await new Promise(r => setTimeout(r, 1000));
     img?.classList.add('show');
@@ -207,9 +207,13 @@
     img?.classList.remove('show');
     await new Promise(r => setTimeout(r, 1000));
 
-    if (textEl && sequence[i].text) {
-      textEl.textContent = "";
-      await typeText(textEl, sequence[i].text);
+    if (textContainer && sequence[i].text) {
+      const typedSpan = document.createElement('span');
+      typedSpan.classList.add('typed');
+      textContainer.innerHTML = '';
+      textContainer.appendChild(typedSpan);
+
+      await typeText(typedSpan, sequence[i].text);
       await new Promise(r => setTimeout(r, 2000));
     } else {
       await new Promise(r => setTimeout(r, 3500));
@@ -243,7 +247,7 @@
     setTimeout(() => {
       fadeAudio(chime1);
       fadeAudio(chime2);
-    }, 25000); // hold for 25s before fade
+    }, 25000);
 
     startScreen.classList.add("fade-out");
     setTimeout(() => {
